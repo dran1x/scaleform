@@ -16,22 +16,17 @@ permissions:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-22.04
 
     steps:
-    - name: Enable Developer Command Prompt
-      uses: ilammy/msvc-dev-cmd@v1.10.0
-      with:
-        arch: win32
-
     - uses: actions/checkout@v3
 
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: ./build_release.bat
+      run: cmake -G Ninja && ninja
       
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3
       with:
           name: ReleaseBuild
-          path: ./out/build/x86-release/TeamSCALEFORM.dll
+          path: ./out/build/x86-release/TeamSCALEFORM.so
